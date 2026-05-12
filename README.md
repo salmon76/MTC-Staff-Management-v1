@@ -28,10 +28,10 @@
 
 สำหรับทีมพัฒนา (Developers & Maintainers) โปรเจกต์นี้สร้างด้วยเทคโนโลยีมาตรฐานสากล:
 
-- **Frontend Framework:** [Next.js 15](https://nextjs.org/) (App Router & Turbopack) - เพื่อประสิทธิภาพสูงสุด
-- **Language:** [TypeScript](https://www.typescriptlang.org/) - เน้นความถูกต้องของข้อมูล (Type Safety)
-- **Styling:** Modern CSS (CSS Variables) - ดีไซน์สวยงาม ปรับแต่งได้ง่าย (Pixel-perfect)
-- **Architecture:** Component-based Architecture (แยกส่วนการทำงานชัดเจน ดูแลรักษาง่าย)
+- **Frontend Framework:** [Next.js 15](https://nextjs.org/) (App Router & Turbopack)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Database & ORM:** [Prisma](https://www.prisma.io/) with PostgreSQL (Supabase)
+- **Styling:** Modern CSS (CSS Variables) - Pixel-perfect design
 
 ---
 
@@ -41,11 +41,13 @@
 
 ```bash
 src/
-├── 📄 app/           # หน้าจอต่างๆ (Routes) เช่น /staff, /events
-├── 🧩 components/    # ชิ้นส่วนหน้าจอที่ใช้ซ้ำ (Buttons, Cards, Lists)
-├── 💾 data/          # ศูนย์รวมข้อมูล (Mock Data) *พร้อมเปลี่ยนเป็น API*
-├── 📐 types/         # โครงสร้างข้อมูล (Data Models / Interfaces)
-└── 🔧 services/      # (Future) จุดเชื่อมต่อกับฐานข้อมูล Supabase / API
+├── 📄 app/           # หน้าจอต่างๆ (Routes)
+├── 🧩 components/    # UI Components ที่ใช้ซ้ำ
+├── 💾 data/          # Mock Data (กำลังทยอยเปลี่ยนเป็น Database)
+├── 📐 types/         # TypeScript Interfaces
+└── 🔧 lib/           # Shared libraries (เช่น prisma.ts)
+prisma/
+└── 📄 schema.prisma  # Database Schema
 ```
 
 ---
@@ -58,7 +60,17 @@ src/
    npm install
    ```
 
-2. **Run Development Server:**
+2. **Environment Setup:**
+   - คัดลอกไฟล์ `.env.example` เป็น `.env`
+   - แก้ไขค่า `DATABASE_URL` ให้ตรงกับ Database ของคุณ
+
+3. **Database Setup:**
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
+
+4. **Run Development Server:**
    ```bash
    npm run dev
    ```

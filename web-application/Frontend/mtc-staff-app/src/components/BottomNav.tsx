@@ -72,11 +72,12 @@ export default function BottomNav() {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                background: "rgba(255, 255, 255, 0.9)",
-                backdropFilter: "blur(20px)",
+                background: "rgba(255, 255, 255, 0.92)",
+                backdropFilter: "blur(24px)",
+                WebkitBackdropFilter: "blur(24px)",
                 borderTop: "1px solid var(--border-light)",
                 zIndex: 100,
-                boxShadow: "0 -4px 20px rgba(0,0,0,0.04)",
+                boxShadow: "0 -2px 16px rgba(0,0,0,0.06)",
             }}
         >
             <div
@@ -84,9 +85,10 @@ export default function BottomNav() {
                     display: "flex",
                     justifyContent: "space-around",
                     alignItems: "center",
-                    maxWidth: 600,
+                    maxWidth: "var(--app-max-width)",
                     margin: "0 auto",
-                    height: 64,
+                    height: "var(--nav-height)",
+                    paddingInline: "var(--app-padding)",
                 }}
             >
                 {NAV_ITEMS.map((item) => {

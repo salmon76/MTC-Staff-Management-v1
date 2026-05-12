@@ -138,10 +138,10 @@ export default function DashboardView({ userName }: DashboardProps) {
 
     return (
         <div
+            className="app-container"
             style={{
-                padding: "0 20px 100px", // Bottom padding for nav bar + safe area
-                maxWidth: 600,
-                margin: "0 auto",
+                paddingTop: 8,
+                paddingBottom: "calc(var(--nav-height) + 16px)",
             }}
         >
             {/* Greeting Card */}

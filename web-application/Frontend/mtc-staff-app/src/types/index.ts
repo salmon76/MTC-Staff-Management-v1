@@ -17,6 +17,12 @@ export interface Staff {
     avatarBg?: string; // Hex color
     avatarColor?: string; // Hex color
     joinedDate?: string;
+    bio?: string;
+    birthday?: string; // "DD MMM YYYY"
+    lineId?: string;
+    address?: string;
+    skills?: string[];
+    avatarUrl?: string; // full URL for photo
 }
 
 // Event / Task Interface

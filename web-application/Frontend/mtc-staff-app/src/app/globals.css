@@ -41,6 +41,7 @@
   --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
   --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
   --shadow-red: 0 4px 20px rgba(198, 40, 40, 0.3);
+  --shadow-red-sm: 0 2px 8px rgba(198, 40, 40, 0.2);
   --shadow-red-lg: 0 8px 30px rgba(198, 40, 40, 0.4);
 
   /* Radius */
@@ -55,6 +56,11 @@
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* App Layout */
+  --app-max-width: 600px;
+  --app-padding: 16px;
+  --nav-height: 68px;
 }
 
 @theme inline {
@@ -100,6 +106,72 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
+  /* Remove tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================
+   Mobile-First App Layout
+   ============================ */
+
+/* Centered app shell - works on phone, tablet, and wide desktop */
+.app-container {
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--app-padding);
+  padding-right: var(--app-padding);
+}
+
+/* Full-page wrapper */
+.page-wrapper {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--background);
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
+}
+
+/* Sticky page header */
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-light);
+  padding: 14px var(--app-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Wider on iPad */
+}
+
+.page-header-inner {
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* iPad / tablet: expand to 768px max */
+@media (min-width: 640px) {
+  :root {
+    --app-max-width: 680px;
+    --app-padding: 24px;
+    --nav-height: 72px;
+  }
+}
+
+@media (min-width: 900px) {
+  :root {
+    --app-max-width: 780px;
+    --app-padding: 32px;
+  }
 }
 
 /* ============================
@@ -247,8 +319,18 @@ body {
   transition: box-shadow var(--transition-base), transform var(--transition-base);
 }
 
-.mtc-card:hover {
-  box-shadow: var(--shadow-lg);
+/* Hover only on non-touch devices */
+@media (hover: hover) {
+  .mtc-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+}
+
+/* Touch press feedback */
+.mtc-card:active {
+  transform: scale(0.985);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Button Primary */
@@ -503,6 +585,13 @@ body {
   .mtc-modal {
     margin: 0 16px;
     padding: 24px;
+  }
+
+  /* Slightly larger touch targets */
+  .mtc-btn-primary,
+  .mtc-btn-secondary {
+    padding: 16px 28px;
+    font-size: 15px;
   }
 }
 
