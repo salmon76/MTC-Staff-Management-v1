@@ -1,31 +1,74 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 model Staff {
-  id          String   @id @default(uuid())
-  name        String
-  role        String
-  department  String
-  status      String   @default("offline")
-  phone       String?
-  email       String?  @unique
-  lineId      String?  @unique
-  avatarBg    String?
-  avatarColor String?
-  avatarUrl   String?
-  joinedDate  String?
-  birthday    String?
-  bio         String?
-  address     String?
-  skills      String[] // Prisma supports scalar lists for PostgreSQL
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                String              @id @default(uuid())
+  name              String
+  role              String
+  department        String
+  status            String              @default("offline")
+  phone             String?
+  email             String?             @unique
+  lineId            String?             @unique
+  avatarBg          String?
+  avatarColor       String?
+  avatarUrl         String?
+  joinedDate        String?
+  birthday          String?
+  bio               String?
+  address           String?
+  skills            String[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  Car_Booking       Car_Booking[]
+  Equipment_Booking Equipment_Booking[]
+  Leave_Request     Leave_Request[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Car_Booking {
+  id        String   @id(map: "CarBooking_pkey")
+  staffId   String
+  carModel  String
+  purpose   String
+  startDate DateTime
+  endDate   DateTime
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  Staff     Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade, map: "CarBooking_staffId_fkey")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Equipment_Booking {
+  id            String   @id(map: "EquipmentBooking_pkey")
+  staffId       String
+  equipmentName String
+  quantity      Int      @default(1)
+  purpose       String
+  borrowDate    DateTime
+  returnDate    DateTime
+  status        String   @default("borrowed")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime
+  Staff         Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade, map: "EquipmentBooking_staffId_fkey")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Leave_Request {
+  id        String   @id(map: "LeaveRequest_pkey")
+  staffId   String
+  leaveType String
+  startDate DateTime
+  endDate   DateTime
+  reason    String
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  Staff     Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade, map: "LeaveRequest_staffId_fkey")
 }

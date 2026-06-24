@@ -5,6 +5,7 @@ import MTCLogo from "@/components/MTCLogo";
 import SuccessModal from "@/components/SuccessModal";
 import ErrorModal from "@/components/ErrorModal";
 import { useRouter } from "next/navigation";
+import { registerStaffAction } from "@/app/actions/staff";
 
 /**
  * Registration Page
@@ -45,15 +46,12 @@ export default function RegisterPage() {
         setState("submitting");
 
         try {
-            // Simulate API call
-            // In production: const res = await fetch("/api/register", { method: "POST", body: JSON.stringify({ code, lineUserId }) });
-            await new Promise((resolve) => setTimeout(resolve, 1800));
+            const res = await registerStaffAction(code, "@demo.user");
 
-            // Mock validation
-            const codeUpper = code.trim().toUpperCase();
-
-            if (DEMO_VALID_CODES.includes(codeUpper)) {
+            if (res.success) {
                 setState("success");
+            } else if (res.error === "already-registered") {
+                setState("already-registered");
             } else {
                 setState("error");
             }
@@ -409,6 +407,15 @@ export default function RegisterPage() {
 
             {/* Error Modal */}
             <ErrorModal isOpen={state === "error"} onRetry={handleRetry} />
+
+            {/* Already Registered Modal */}
+            <ErrorModal
+                isOpen={state === "already-registered"}
+                title="Already Registered"
+                message="This staff member is already registered. If you need to link a new LINE account or reset your registration, please contact your administrator."
+                buttonText="Go Back"
+                onRetry={handleRetry}
+            />
         </>
     );
 }

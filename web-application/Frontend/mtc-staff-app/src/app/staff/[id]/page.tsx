@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { STAFF_DATA } from "@/data/staff";
+import { getStaffDetail } from "@/app/actions/staff";
+import { Staff } from "@/types";
 
 // Status config
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
@@ -79,8 +80,50 @@ function InfoRow({
 export default function StaffDetailPage() {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
+    const [staff, setStaff] = useState<Staff | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const staff = STAFF_DATA.find((s) => s.id === id);
+    useEffect(() => {
+        if (!id) return;
+        let active = true;
+
+        async function fetchDetail() {
+            try {
+                const data = await getStaffDetail(id);
+                if (active) {
+                    setStaff(data as any);
+                }
+            } catch (err) {
+                console.error("Failed to fetch staff details:", err);
+            } finally {
+                if (active) {
+                    setIsLoading(false);
+                }
+            }
+        }
+
+        fetchDetail();
+
+        return () => {
+            active = false;
+        };
+    }, [id]);
+
+    if (isLoading) {
+        return (
+            <div
+                style={{
+                    minHeight: "100dvh",
+                    background: "var(--background)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <span className="mtc-spinner" style={{ width: 32, height: 32, borderColor: "var(--mtc-red) transparent var(--mtc-red) transparent" }} />
+            </div>
+        );
+    }
 
     if (!staff) {
         return (
@@ -375,7 +418,7 @@ export default function StaffDetailPage() {
                             </svg>
                         }
                         label="Phone"
-                        value={staff.phone}
+                        value={staff.phone ?? "N/A"}
                     />
 
                     {staff.email && (

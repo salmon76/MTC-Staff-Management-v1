@@ -1,0 +1,129 @@
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import pg from "pg";
+import "dotenv/config"; // Ensure env variables are loaded when running seed directly
+
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not defined in environment variables");
+}
+
+const pool = new pg.Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
+
+const staffData = [
+  {
+    id: "staff-1",
+    name: "Rev. Somchai Jaidee",
+    role: "Senior Pastor",
+    department: "Pastoral",
+    status: "online",
+    phone: "084-504-8418",
+    email: "somchai@maitrichit.org",
+    lineId: "@rev.somchai",
+    avatarBg: "#EF5350",
+    avatarColor: "#fff",
+    avatarUrl: "https://ui-avatars.com/api/?name=Somchai+Jaidee&background=EF5350&color=fff&size=128",
+    joinedDate: "1 Jan 2010",
+    birthday: "15 Mar 1972",
+    bio: "ศิษยาภิบาลอาวุโสของคริสตจักรไมตรีจิต ผู้มีใจรักในการประกาศและสร้างสาวก รับใช้พระเจ้ามาแล้วกว่า 20 ปี",
+    address: "กรุงเทพมหานคร",
+    skills: ["Preaching", "Pastoral Care", "Leadership", "Counseling"],
+  },
+  {
+    id: "staff-2",
+    name: "Pas. Mana Raksa",
+    role: "Associate Pastor",
+    department: "Pastoral",
+    status: "meeting",
+    phone: "089-770-2379",
+    email: "mana@maitrichit.org",
+    lineId: "@pas.mana",
+    avatarBg: "#42A5F5",
+    avatarColor: "#fff",
+    avatarUrl: "https://ui-avatars.com/api/?name=Mana+Raksa&background=42A5F5&color=fff&size=128",
+    joinedDate: "5 Mar 2015",
+    birthday: "22 Jun 1985",
+    bio: "ศิษยาภิบาลผู้ช่วย ดูแลกลุ่มเซลล์และพันธกิจเยาวชน ชอบเล่นกีตาร์และนมัสการพระเจ้า",
+    address: "นนทบุรี",
+    skills: ["Cell Group", "Youth Ministry", "Worship", "Discipleship"],
+  },
+  {
+    id: "staff-3",
+    name: "Ms. Suda Ngam",
+    role: "Administrator",
+    department: "Office",
+    status: "leave",
+    phone: "02-222-3333",
+    email: "suda@maitrichit.org",
+    lineId: "@suda.ngam",
+    avatarBg: "#FFCA28",
+    avatarColor: "#333",
+    avatarUrl: "https://ui-avatars.com/api/?name=Suda+Ngam&background=FFCA28&color=333&size=128",
+    joinedDate: "12 Jun 2018",
+    birthday: "3 Nov 1990",
+    bio: "ผู้ดูแลงานธุรการและการเงินของคริสตจักร มีความละเอียดรอบคอบและรักษาความเป็นระเบียบ",
+    address: "กรุงเทพมหานคร",
+    skills: ["Administration", "Finance", "MS Office", "Event Planning"],
+  },
+  {
+    id: "staff-4",
+    name: "Mr. Piti Music",
+    role: "Music Director",
+    department: "Worship",
+    status: "offline",
+    phone: "086-555-4444",
+    email: "piti@maitrichit.org",
+    lineId: "@piti.music",
+    avatarBg: "#AB47BC",
+    avatarColor: "#fff",
+    avatarUrl: "https://ui-avatars.com/api/?name=Piti+Music&background=AB47BC&color=fff&size=128",
+    joinedDate: "20 Sep 2019",
+    birthday: "8 Aug 1995",
+    bio: "ผู้นำนมัสการและผู้อำนวยการดนตรี ความเชี่ยวชาญด้านกีตาร์และการเรียบเรียงเพลง",
+    address: "ปทุมธานี",
+    skills: ["Guitar", "Piano", "Music Arrangement", "Worship Leading"],
+  },
+  {
+    id: "staff-5",
+    name: "Khu Lek",
+    role: "Sunday School Teacher",
+    department: "Education",
+    status: "online",
+    phone: "081-999-8888",
+    email: "lek@maitrichit.org",
+    lineId: "@khu.lek",
+    avatarBg: "#66BB6A",
+    avatarColor: "#fff",
+    avatarUrl: "https://ui-avatars.com/api/?name=Khu+Lek&background=66BB6A&color=fff&size=128",
+    joinedDate: "1 Jan 2021",
+    birthday: "17 Apr 1988",
+    bio: "ครูโรงเรียนวันอาทิตย์ผู้รักเด็กและมีใจในการสอนพระคำของพระเจ้าแก่คนรุ่นใหม่",
+    address: "สมุทรปราการ",
+    skills: ["Teaching", "Child Care", "Crafts", "Storytelling"],
+  },
+];
+
+async function main() {
+  console.log("Start seeding...");
+  for (const staff of staffData) {
+    const upserted = await prisma.staff.upsert({
+      where: { email: staff.email },
+      update: staff,
+      create: staff,
+    });
+    console.log(`Upserted staff: ${upserted.name}`);
+  }
+  console.log("Seeding finished.");
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+    await pool.end();
+  });
