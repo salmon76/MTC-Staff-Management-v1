@@ -6,6 +6,10 @@ datasource db {
   provider = "postgresql"
 }
 
+// ---------------------------------------------------------------------------
+// EXISTING MODELS (รักษาโครงสร้างเดิมไว้ทั้งหมด - Backward Compatible)
+// ---------------------------------------------------------------------------
+
 model Staff {
   id                String              @id @default(uuid())
   name              String
@@ -25,9 +29,15 @@ model Staff {
   skills            String[]
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
+
+  // ความสัมพันธ์เดิม (ไม่เปลี่ยนแปลง)
   Car_Booking       Car_Booking[]
   Equipment_Booking Equipment_Booking[]
   Leave_Request     Leave_Request[]
+
+  // ความสัมพันธ์ใหม่ (เพิ่มเติม)
+  Reported_Tickets  Repair_Ticket[]     @relation("ReporterRelation")
+  Assigned_Tickets  Repair_Ticket[]     @relation("AssigneeRelation")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -45,21 +55,6 @@ model Car_Booking {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model Equipment_Booking {
-  id            String   @id(map: "EquipmentBooking_pkey")
-  staffId       String
-  equipmentName String
-  quantity      Int      @default(1)
-  purpose       String
-  borrowDate    DateTime
-  returnDate    DateTime
-  status        String   @default("borrowed")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime
-  Staff         Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade, map: "EquipmentBooking_staffId_fkey")
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Leave_Request {
   id        String   @id(map: "LeaveRequest_pkey")
   staffId   String
@@ -71,4 +66,91 @@ model Leave_Request {
   createdAt DateTime @default(now())
   updatedAt DateTime
   Staff     Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade, map: "LeaveRequest_staffId_fkey")
+}
+
+// ---------------------------------------------------------------------------
+// MODIFIED MODEL (ขยายความสามารถ Equipment_Booking - Backward Compatible)
+// ฟิลด์ใหม่ทั้งหมดเป็น Optional เพื่อรักษาข้อมูลเดิม
+// ---------------------------------------------------------------------------
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Equipment_Booking {
+  id            String     @id(map: "EquipmentBooking_pkey")
+  staffId       String
+  equipmentName String     // ชื่อข้อความแบบเดิม (เก็บข้อมูลเก่าไว้)
+  equipmentId   String?    // [NEW] เชื่อมโยงกับตาราง Equipment ใหม่ (Optional)
+  quantity      Int        @default(1)
+  purpose       String
+  borrowDate    DateTime
+  returnDate    DateTime
+  status        String     @default("pending_handover") // เพิ่ม "pending_handover" state
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime
+
+  // [NEW] ฟิลด์ลายเซ็นดิจิทัลตอนรับมอบ (Handover)
+  handoverSignature  String?    // Base64 ภาพลายเซ็นตอนรับอุปกรณ์
+  handoverSignerName String?    // ชื่อผู้ลงนามรับอุปกรณ์
+  handoverAt         DateTime?  // วันเวลาที่รับอุปกรณ์จริง
+
+  // [NEW] ฟิลด์ลายเซ็นดิจิทัลตอนคืน (Return)
+  returnSignature  String?      // Base64 ภาพลายเซ็นตอนคืนอุปกรณ์
+  returnSignerName String?      // ชื่อผู้ลงนามคืนอุปกรณ์
+  returnAt         DateTime?    // วันเวลาที่คืนอุปกรณ์จริง
+
+  // ความสัมพันธ์
+  Staff     Staff      @relation(fields: [staffId], references: [id], onDelete: Cascade, map: "EquipmentBooking_staffId_fkey")
+  Equipment Equipment? @relation(fields: [equipmentId], references: [id], onDelete: SetNull)
+}
+
+// ---------------------------------------------------------------------------
+// NEW MODELS (โมเดลใหม่)
+// ---------------------------------------------------------------------------
+
+/// [NEW] ตารางอุปกรณ์หลัก (Equipment Master Catalog)
+model Equipment {
+  id           String   @id @default(uuid())
+  name         String   // ชื่ออุปกรณ์ เช่น "Projector EPSON A"
+  type         String   // ประเภท: "Projector" | "Microphone" | "Camera" | "SoundSystem" | "Other"
+  serialNumber String?  @unique
+  location     String?  // ตำแหน่งจัดเก็บปกติ เช่น "ห้องประชุม A"
+  status       String   @default("available") // "available" | "maintenance" | "retired"
+  qrCode       String   @unique // รหัสเฉพาะบน QR Code เช่น "EQ-PRJ-001"
+  imageUrl     String?  // รูปภาพอุปกรณ์
+  notes        String?  // หมายเหตุ
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // ความสัมพันธ์
+  Bookings     Equipment_Booking[]
+  Tickets      Repair_Ticket[]
+}
+
+/// [NEW] ตารางใบแจ้งซ่อมและติดตาม SLA (Repair Ticket & SLA Tracking)
+model Repair_Ticket {
+  id           String    @id @default(uuid())
+  equipmentId  String    // อุปกรณ์ที่เสีย
+  reporterId   String    // ผู้แจ้งซ่อม (Staff)
+  assignedToId String?   // ช่างหรือเจ้าหน้าที่ผู้รับผิดชอบ (Staff) — Optional
+
+  description  String    // รายละเอียดอาการเสีย
+  priority     String    @default("medium") // "low" | "medium" | "high" | "critical"
+  status       String    @default("pending") // "pending" | "in_progress" | "resolved" | "closed"
+
+  // SLA Tracking Fields
+  slaDeadline  DateTime  // คำนวณอัตโนมัติจาก priority ตอนสร้าง Ticket
+  respondedAt  DateTime? // เวลาที่ช่างเปลี่ยนสถานะเป็น in_progress
+  resolvedAt   DateTime? // เวลาที่ซ่อมเสร็จ (resolved)
+  closedAt     DateTime? // เวลาที่ปิดงาน (closed)
+
+  // [Optional] หลักฐานรูปภาพก่อน-หลังซ่อม
+  pictureBefore String?  // URL หรือ Base64 ภาพก่อนซ่อม
+  pictureAfter  String?  // URL หรือ Base64 ภาพหลังซ่อม
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // ความสัมพันธ์
+  Equipment    Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  Reporter     Staff     @relation("ReporterRelation", fields: [reporterId], references: [id], onDelete: Cascade)
+  Assignee     Staff?    @relation("AssigneeRelation", fields: [assignedToId], references: [id], onDelete: SetNull)
 }
