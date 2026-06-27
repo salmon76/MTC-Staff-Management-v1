@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import SignaturePad from "@/components/SignaturePad";
+import * as XLSX from "xlsx";
 
 interface Equipment {
   id: string;
@@ -58,6 +59,8 @@ export default function EquipmentPage() {
   const [availability, setAvailability] = useState<{ available: boolean; reason?: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [formLoading, setFormLoading] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Form state
   const [purpose, setPurpose] = useState("");
@@ -162,6 +165,52 @@ export default function EquipmentPage() {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsImporting(true);
+    try {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const data = event.target?.result;
+        if (!data) return;
+
+        const workbook = XLSX.read(data, { type: "binary" });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const json = XLSX.utils.sheet_to_json(worksheet);
+
+        if (json.length === 0) {
+          alert("ไม่พบข้อมูลในไฟล์ Excel");
+          setIsImporting(false);
+          return;
+        }
+
+        const res = await fetch("/api/equipment/bulk", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ equipments: json }),
+        });
+        const result = await res.json();
+
+        if (result.success) {
+          alert(result.message);
+          loadEquipment(); // Refresh list
+        } else {
+          alert(`เกิดข้อผิดพลาด: ${result.error}`);
+        }
+        setIsImporting(false);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      };
+      reader.readAsBinaryString(file);
+    } catch (err) {
+      console.error(err);
+      alert("ไม่สามารถอ่านไฟล์ได้");
+      setIsImporting(false);
+    }
+  };
+
   return (
     <div style={{ minHeight: "100dvh", background: "var(--background)", paddingBottom: 90 }}>
       {/* Header */}
@@ -218,6 +267,36 @@ export default function EquipmentPage() {
         {/* ─── TAB: CATALOG ─── */}
         {tab === "catalog" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <p style={{ fontSize: 13, fontWeight: 700, color: "var(--text-secondary)" }}>รายการอุปกรณ์ทั้งหมด ({equipmentList.length})</p>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isImporting}
+                style={{
+                  background: "white",
+                  border: "1.5px solid var(--border)",
+                  padding: "6px 12px",
+                  borderRadius: 8,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: isImporting ? "wait" : "pointer",
+                  color: "var(--text-primary)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4
+                }}
+              >
+                {isImporting ? "กำลังนำเข้า..." : "📥 นำเข้า Excel"}
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                accept=".xlsx, .xls, .csv"
+                onChange={handleFileUpload}
+              />
+            </div>
+
             {equipmentList.length === 0 && (
               <div className="mtc-card" style={{ textAlign: "center", padding: 40, color: "var(--text-tertiary)" }}>
                 <div style={{ fontSize: 40, marginBottom: 12 }}>📦</div>
