@@ -7,46 +7,46 @@ import BottomNav from "@/components/BottomNav";
 const ALERTS_DATA = [
     {
         id: 1,
-        title: "Urgent Prayer Request",
-        message: "Mrs. Somjai has been admitted to ICU. Please pray.",
-        date: "12 min ago",
-        type: "Urgent", // Red
+        title: "ขออธิษฐานเผื่อด่วน",
+        message: "คุณสมใจเข้ารักษาตัวในห้อง ICU ขอคำอธิษฐานเผื่อจากพี่น้องทุกท่าน",
+        date: "12 นาทีที่แล้ว",
+        type: "ด่วนที่สุด", // Red
         read: false,
         color: "#EF5350",
     },
     {
         id: 2,
-        title: "Meeting Reminder",
-        message: "Staff meeting starts in 15 minutes at Room A.",
-        date: "15 min ago",
-        type: "Warning", // Yellow/Orange
+        title: "แจ้งเตือนการประชุม",
+        message: "การประชุมเจ้าหน้าที่จะเริ่มในอีก 15 นาทีที่ห้อง A",
+        date: "15 นาทีที่แล้ว",
+        type: "แจ้งเตือน", // Yellow/Orange
         read: false,
         color: "#FFA726",
     },
     {
         id: 3,
-        title: "Leave Approved",
-        message: "Your leave request for 20-22 June has been approved.",
-        date: "2 hours ago",
-        type: "Success", // Green
+        title: "คำขอลาได้รับการอนุมัติ",
+        message: "คำขอลาพักร้อนวันที่ 20-22 มิ.ย. ของคุณได้รับการอนุมัติแล้ว",
+        date: "2 ชั่วโมงที่แล้ว",
+        type: "อนุมัติ", // Green
         read: true,
         color: "#66BB6A",
     },
     {
         id: 4,
-        title: "New Roster Published",
-        message: "The roster for July is now available. Please check your schedule.",
-        date: "Yesterday",
-        type: "Info", // Blue
+        title: "ประกาศตารางงานใหม่",
+        message: "ตารางปฏิบัติงานสำหรับเดือนกรกฎาคมเผยแพร่แล้ว กรุณาตรวจสอบตารางของคุณ",
+        date: "เมื่อวานนี้",
+        type: "ทั่วไป", // Blue
         read: true,
         color: "#42A5F5",
     },
     {
         id: 5,
-        title: "System Maintenance",
-        message: "The system will be down for maintenance tonight at 02:00 AM.",
-        date: "2 days ago",
-        type: "Info",
+        title: "ปิดปรับปรุงระบบ",
+        message: "ระบบจะปิดปรับปรุงชั่วคราวในคืนนี้เวลา 02:00 น.",
+        date: "2 วันที่แล้ว",
+        type: "ทั่วไป",
         read: true,
         color: "#9E9E9E", // Gray
     },
@@ -91,7 +91,7 @@ export default function AlertsPage() {
                 }}
             >
                 <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--text-primary)" }}>
-                    Notifications
+                    การแจ้งเตือน
                     {unreadCount > 0 && <span style={{ marginLeft: 8, fontSize: 13, background: "#EF5350", color: "white", padding: "2px 8px", borderRadius: 12 }}>{unreadCount}</span>}
                 </h1>
                 {unreadCount > 0 && (
@@ -106,7 +106,7 @@ export default function AlertsPage() {
                             cursor: "pointer"
                         }}
                     >
-                        Mark all read
+                        อ่านทั้งหมดแล้ว
                     </button>
                 )}
             </header>
@@ -116,7 +116,7 @@ export default function AlertsPage() {
                 {alerts.length === 0 ? (
                     <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text-tertiary)" }}>
                         <div style={{ fontSize: 48, marginBottom: 16 }}>🔕</div>
-                        <p>No notifications right now.</p>
+                        <p>ไม่มีการแจ้งเตือนในขณะนี้</p>
                     </div>
                 ) : (
                     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

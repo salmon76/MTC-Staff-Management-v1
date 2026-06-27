@@ -108,7 +108,7 @@ function ActionButton({
                             fontWeight: 500,
                         }}
                     >
-                        Check your tasks & meetings
+                        ตรวจสอบตารางงานและการประชุมของคุณ
                     </span>
                 )}
             </div>
@@ -171,7 +171,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                                 marginBottom: 4,
                             }}
                         >
-                            Welcome back, {userName}! 🙏
+                            ยินดีต้อนรับกลับมา คุณ {userName}! 🙏
                         </h3>
                         <p
                             style={{
@@ -180,7 +180,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                                 lineHeight: 1.5,
                             }}
                         >
-                            Check your schedule below or book resources for your ministry work.
+                            ตรวจสอบตารางงานด้านล่าง หรือจองทรัพยากรสำหรับงานพันธกิจของคุณ
                         </p>
                     </div>
                     <button
@@ -225,7 +225,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                 <div style={{ gridColumn: "1 / -1" }}>
                     <ActionButton
                         href="/schedule"
-                        label="My Schedule"
+                        label="ตารางงานของฉัน"
                         color="primary"
                         icon={
                             <svg
@@ -250,7 +250,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                 {/* Action: Car Reserve */}
                 <ActionButton
                     href="/reserve/car"
-                    label="Car Reserve"
+                    label="จองรถคริสตจักร"
                     icon={
                         <svg
                             width="24"
@@ -272,7 +272,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                 {/* Action: Equipment */}
                 <ActionButton
                     href="/equipment"
-                    label="Equipment"
+                    label="จองอุปกรณ์"
                     icon={
                         <svg
                             width="24"
@@ -293,7 +293,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                 {/* Additional Action: Staff Directory */}
                 <ActionButton
                     href="/staff"
-                    label="Directory"
+                    label="ทำเนียบบุคลากร"
                     icon={
                         <svg
                             width="24"
@@ -316,7 +316,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                 {/* Additional Action: Request Leave */}
                 <ActionButton
                     href="/leave"
-                    label="Request Leave"
+                    label="ขออนุมัติลา"
                     icon={
                         <svg
                             width="24"
@@ -356,7 +356,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                             color: "var(--text-primary)",
                         }}
                     >
-                        Today's Alerts
+                        การแจ้งเตือนวันนี้
                     </h3>
                     <Link
                         href="/alerts"
@@ -367,7 +367,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                             fontWeight: 600,
                         }}
                     >
-                        See all
+                        ดูทั้งหมด
                     </Link>
                 </div>
 
@@ -388,7 +388,7 @@ export default function DashboardView({ userName }: DashboardProps) {
                             fontStyle: "italic",
                         }}
                     >
-                        No new alerts for today 🎉
+                        ไม่มีการแจ้งเตือนใหม่ในวันนี้ 🎉
                     </p>
                 </div>
             </div>

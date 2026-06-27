@@ -15,8 +15,8 @@ const prisma = new PrismaClient({ adapter });
 const staffData = [
   {
     id: "staff-1",
-    name: "Rev. Somchai Jaidee",
-    role: "Senior Pastor",
+    name: "อาจารย์เที้ยง",
+    role: "ศาสนาจารย์",
     department: "Pastoral",
     status: "online",
     phone: "084-504-8418",
@@ -33,8 +33,8 @@ const staffData = [
   },
   {
     id: "staff-2",
-    name: "Pas. Mana Raksa",
-    role: "Associate Pastor",
+    name: "อาจารย์ไก่",
+    role: "ผู้นำนมัสการ",
     department: "Pastoral",
     status: "meeting",
     phone: "089-770-2379",
@@ -51,8 +51,8 @@ const staffData = [
   },
   {
     id: "staff-3",
-    name: "Ms. Suda Ngam",
-    role: "Administrator",
+    name: "เจ้พั้ง",
+    role: "ศิษยาภิบาล",
     department: "Office",
     status: "leave",
     phone: "02-222-3333",
@@ -69,8 +69,8 @@ const staffData = [
   },
   {
     id: "staff-4",
-    name: "Mr. Piti Music",
-    role: "Music Director",
+    name: "เฮียปิงปอง",
+    role: "เจ้าหน้าที่",
     department: "Worship",
     status: "offline",
     phone: "086-555-4444",
@@ -87,8 +87,8 @@ const staffData = [
   },
   {
     id: "staff-5",
-    name: "Khu Lek",
-    role: "Sunday School Teacher",
+    name: "แซลมอน",
+    role: "ผู้ดูแลระบบ",
     department: "Education",
     status: "online",
     phone: "081-999-8888",

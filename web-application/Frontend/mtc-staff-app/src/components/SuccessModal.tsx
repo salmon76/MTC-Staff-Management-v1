@@ -12,9 +12,9 @@ interface SuccessModalProps {
 
 export default function SuccessModal({
     isOpen,
-    title = "Verification Successful!",
-    message = "Your registration code has been verified. You can now proceed to set up your account.",
-    buttonText = "Get Started",
+    title = "ยืนยันตัวตนสำเร็จ!",
+    message = "รหัสลงทะเบียนของคุณได้รับการยืนยันแล้ว สามารถเข้าใช้งานระบบพอร์ทัลบุคลากรได้เลย",
+    buttonText = "เริ่มต้นใช้งาน",
     onContinue,
 }: SuccessModalProps) {
     if (!isOpen) return null;
@@ -121,7 +121,7 @@ export default function SuccessModal({
                         color: "var(--text-tertiary)",
                     }}
                 >
-                    Need help? Contact support
+                    ต้องการความช่วยเหลือ? ติดต่อฝ่ายสนับสนุน
                 </p>
             </div>
         </div>

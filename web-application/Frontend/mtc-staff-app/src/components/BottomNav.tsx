@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
     {
-        label: "Home",
+        label: "หน้าแรก",
         href: "/dashboard",
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,7 +16,7 @@ const NAV_ITEMS = [
         ),
     },
     {
-        label: "Staff",
+        label: "บุคลากร",
         href: "/staff",
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -28,7 +28,7 @@ const NAV_ITEMS = [
         ),
     },
     {
-        label: "Schedule",
+        label: "ตารางงาน",
         href: "/schedule",
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -40,7 +40,7 @@ const NAV_ITEMS = [
         ),
     },
     {
-        label: "Alerts",
+        label: "แจ้งเตือน",
         href: "/alerts",
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -50,7 +50,7 @@ const NAV_ITEMS = [
         ),
     },
     {
-        label: "Me",
+        label: "ฉัน",
         href: "/profile",
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

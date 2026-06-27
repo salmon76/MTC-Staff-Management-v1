@@ -197,7 +197,7 @@ export default function RegisterPage() {
                                 letterSpacing: "-0.02em",
                             }}
                         >
-                            Welcome Staff
+                            ลงทะเบียนบุคลากร
                         </h1>
 
                         {/* Subtitle */}
@@ -211,9 +211,9 @@ export default function RegisterPage() {
                                 margin: "0 auto",
                             }}
                         >
-                            Please enter your registration code
+                            กรุณากรอกรหัสลงทะเบียนที่ได้รับ
                             <br />
-                            to access the staff portal.
+                            เพื่อเริ่มต้นใช้งานพอร์ทัลบุคลากร
                         </p>
 
                         {/* Registration Form */}
@@ -226,7 +226,7 @@ export default function RegisterPage() {
                         >
                             {/* Code Label */}
                             <label htmlFor="registration-code" className="mtc-label">
-                                Registration Code
+                                รหัสลงทะเบียน
                             </label>
 
                             {/* Code Input */}
@@ -272,7 +272,7 @@ export default function RegisterPage() {
                                     id="registration-code"
                                     type="text"
                                     className={`mtc-input ${state === "error" ? "error" : ""}`}
-                                    placeholder="e.g. MC-1837-XXXX"
+                                    placeholder="ตัวอย่าง MC-1837-XXXX"
                                     value={code}
                                     onChange={(e) => setCode(formatCodeInput(e.target.value))}
                                     onFocus={() => setIsCodeFocused(true)}
@@ -314,10 +314,10 @@ export default function RegisterPage() {
                                         }}
                                     >
                                         <span className="mtc-spinner" />
-                                        Verifying...
+                                        กำลังตรวจสอบ...
                                     </span>
                                 ) : (
-                                    "Register"
+                                    "ลงทะเบียน"
                                 )}
                             </button>
                         </form>
@@ -330,7 +330,7 @@ export default function RegisterPage() {
                                 color: "var(--text-tertiary)",
                             }}
                         >
-                            Need help with your code?{" "}
+                            หากต้องการความช่วยเหลือเกี่ยวกับรหัสผ่าน?{" "}
                             <a
                                 href="#"
                                 id="help-link"
@@ -346,7 +346,7 @@ export default function RegisterPage() {
                                     );
                                 }}
                             >
-                                Contact Admin
+                                ติดต่อผู้ดูแลระบบ
                             </a>
                         </p>
 
@@ -411,9 +411,9 @@ export default function RegisterPage() {
             {/* Already Registered Modal */}
             <ErrorModal
                 isOpen={state === "already-registered"}
-                title="Already Registered"
-                message="This staff member is already registered. If you need to link a new LINE account or reset your registration, please contact your administrator."
-                buttonText="Go Back"
+                title="เคยลงทะเบียนไว้แล้ว"
+                message="บัญชีบุคลากรนี้ได้ลงทะเบียนไว้แล้ว หากต้องการเชื่อมโยงบัญชี LINE ใหม่ หรือมีปัญหาในการใช้งาน กรุณาติดต่อผู้ดูแลระบบ"
+                buttonText="ย้อนกลับ"
                 onRetry={handleRetry}
             />
         </>

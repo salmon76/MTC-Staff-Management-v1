@@ -73,7 +73,11 @@ export default function Header({
                         marginBottom: 2,
                     }}
                 >
-                    Monday, 12 June
+                    {new Date().toLocaleDateString('th-TH', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long',
+                    })}
                 </p>
                 <h2
                     style={{
@@ -86,7 +90,7 @@ export default function Header({
                         gap: 6,
                     }}
                 >
-                    Maitrichit Church
+                    คริสตจักรไมตรีจิต
                     <span
                         style={{
                             display: "inline-block",

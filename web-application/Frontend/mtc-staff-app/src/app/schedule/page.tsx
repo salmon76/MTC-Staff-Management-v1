@@ -5,18 +5,18 @@ import BottomNav from "@/components/BottomNav";
 
 // Mock data for the schedule
 const ALL_SCHEDULES = [
-    { id: 1, title: "Morning Prayer", time: "06:00", staff: "Pastor Somchai", color: "#EF5350", date: 12 },
-    { id: 2, title: "Youth Meeting", time: "14:00", staff: "John Doe", color: "#42A5F5", date: 12 },
-    { id: 3, title: "Building Maintenance", time: "09:00", staff: "Wichai", color: "#66BB6A", date: 13 },
-    { id: 4, title: "Worship Practice", time: "18:00", staff: "John Doe", color: "#AB47BC", date: 14 },
-    { id: 5, title: "Sunday Service Prep", time: "10:00", staff: "Pastor Somchai", color: "#EF5350", date: 15 },
-    { id: 6, title: "Choir Rehearsal", time: "16:00", staff: "Sarah", color: "#FFA726", date: 15 },
-    { id: 7, title: "Counseling", time: "13:00", staff: "John Doe", color: "#26C6DA", date: 16 },
+    { id: 1, title: "อธิษฐานรุ่งอรุณ", time: "06:00", staff: "อ.สมชาย", color: "#EF5350", date: 12 },
+    { id: 2, title: "ประชุมอนุชน", time: "14:00", staff: "ยอห์น (ชื่อทดสอบ)", color: "#42A5F5", date: 12 },
+    { id: 3, title: "ซ่อมบำรุงอาคาร", time: "09:00", staff: "วิชัย", color: "#66BB6A", date: 13 },
+    { id: 4, title: "ซ้อมทีมมนัสการ", time: "18:00", staff: "ยอห์น (ชื่อทดสอบ)", color: "#AB47BC", date: 14 },
+    { id: 5, title: "เตรียมการนมัสการวันอาทิตย์", time: "10:00", staff: "อ.สมชาย", color: "#EF5350", date: 15 },
+    { id: 6, title: "ซ้อมคณะนักร้องประสานเสียง", time: "16:00", staff: "ซาร่าห์", color: "#FFA726", date: 15 },
+    { id: 7, title: "ให้คำปรึกษา", time: "13:00", staff: "ยอห์น (ชื่อทดสอบ)", color: "#26C6DA", date: 16 },
 ];
 
 export default function SchedulePage() {
     const [isAdmin, setIsAdmin] = useState(true);
-    const currentUser = "John Doe";
+    const currentUser = "ยอห์น (ชื่อทดสอบ)";
 
     const filteredSchedules = isAdmin 
         ? ALL_SCHEDULES 
@@ -30,10 +30,10 @@ export default function SchedulePage() {
                 <div className="page-header-inner">
                     <div>
                         <h1 style={{ fontSize: 22, fontWeight: 800, color: "var(--mtc-red)", letterSpacing: "-0.02em" }}>
-                            MTC Schedule
+                            ตารางงาน MTC
                         </h1>
                         <p style={{ fontSize: 13, color: "var(--text-secondary)", fontWeight: 500 }}>
-                            {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                            {new Date().toLocaleDateString('th-TH', { month: 'long', year: 'numeric' })}
                         </p>
                     </div>
 
@@ -53,7 +53,7 @@ export default function SchedulePage() {
                             transition: "all var(--transition-base)"
                         }}
                     >
-                        {isAdmin ? "Admin View" : "Staff View"}
+                        {isAdmin ? "มุมมองผู้ดูแล" : "มุมมองบุคลากร"}
                     </button>
                 </div>
             </header>
@@ -63,15 +63,15 @@ export default function SchedulePage() {
                 <div style={{ display: "flex", gap: 16, marginBottom: 20, overflowX: "auto", paddingBottom: 8 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
                         <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#EF5350" }} />
-                        <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-secondary)" }}>Worship</span>
+                        <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-secondary)" }}>งานนมัสการ</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
                         <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#42A5F5" }} />
-                        <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-secondary)" }}>Meeting</span>
+                        <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-secondary)" }}>การประชุม</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
                         <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#66BB6A" }} />
-                        <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-secondary)" }}>Mission</span>
+                        <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-secondary)" }}>พันธกิจ/กิจกรรม</span>
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@ export default function SchedulePage() {
                         border: "1px solid var(--border-light)"
                     }}
                 >
-                    {["S", "M", "T", "W", "T", "F", "S"].map((day, idx) => (
+                    {["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"].map((day, idx) => (
                         <div key={idx} style={{ textAlign: "center", fontSize: 11, fontWeight: 800, color: "var(--text-tertiary)", paddingBottom: 8 }}>
                             {day}
                         </div>
@@ -148,9 +148,11 @@ export default function SchedulePage() {
                 <div style={{ marginTop: 24 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
                         <h2 style={{ fontSize: 18, fontWeight: 800, color: "var(--text-primary)" }}>
-                            Today's Agenda
+                            ตารางกำหนดการวันนี้
                         </h2>
-                        <span style={{ fontSize: 13, color: "var(--mtc-red)", fontWeight: 600 }}>12 June 2026</span>
+                        <span style={{ fontSize: 13, color: "var(--mtc-red)", fontWeight: 600 }}>
+                            {new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        </span>
                     </div>
 
                     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -204,7 +206,7 @@ export default function SchedulePage() {
 
                         {filteredSchedules.filter(s => s.date === 12).length === 0 && (
                             <div style={{ textAlign: "center", padding: "40px 0", color: "var(--text-tertiary)" }}>
-                                <p>No assignments for today.</p>
+                                <p>ไม่มีกำหนดการปฏิบัติงานในวันนี้</p>
                             </div>
                         )}
                     </div>

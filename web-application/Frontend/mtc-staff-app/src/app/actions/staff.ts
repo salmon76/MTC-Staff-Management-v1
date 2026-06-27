@@ -40,7 +40,7 @@ export async function getStaffList(searchTerm = "", departmentFilter = "All") {
     }));
   } catch (error) {
     console.error("Error in getStaffList action:", error);
-    throw new Error("Failed to fetch staff list");
+    throw new Error("ไม่สามารถดึงรายชื่อบุคลากรได้");
   }
 }
 
@@ -59,7 +59,7 @@ export async function getStaffDetail(id: string) {
     };
   } catch (error) {
     console.error("Error in getStaffDetail action:", error);
-    throw new Error("Failed to fetch staff details");
+    throw new Error("ไม่สามารถดึงรายละเอียดบุคลากรได้");
   }
 }
 

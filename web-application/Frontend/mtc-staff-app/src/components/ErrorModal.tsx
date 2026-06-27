@@ -12,9 +12,9 @@ interface ErrorModalProps {
 
 export default function ErrorModal({
     isOpen,
-    title = "Invalid Registration Code",
-    message = "The code you entered is incorrect. Please check and try again. If you continue to have issues, please contact support for assistance.",
-    buttonText = "Try Again",
+    title = "รหัสลงทะเบียนไม่ถูกต้อง",
+    message = "รหัสที่ป้อนไม่ถูกต้อง กรุณาตรวจสอบรหัสลงทะเบียนของท่านแล้วลองใหม่อีกครั้ง หากยังพบปัญหา กรุณาติดต่อฝ่ายสนับสนุนเพื่อขอความช่วยเหลือ",
+    buttonText = "ลองอีกครั้ง",
     onRetry,
 }: ErrorModalProps) {
     if (!isOpen) return null;

@@ -161,7 +161,7 @@ export default function LoginPage() {
           >
             ยินดีต้อนรับกลับเข้าสู่ระบบ
             <br />
-            Maitrichit Church Staff Portal
+            พอร์ทัลบุคลากรคริสตจักรไมตรีจิต
           </p>
 
           <button
@@ -173,7 +173,7 @@ export default function LoginPage() {
               router.push("/dashboard");
             }}
           >
-            เข้าสู่ระบบ
+            เข้าสู่แดชบอร์ด
           </button>
         </div>
       </div>

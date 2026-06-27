@@ -9,11 +9,25 @@ import LoadingScreen from "@/components/LoadingScreen";
 
 // Status Indicator Component
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-    online: { label: "Online", color: "#66BB6A" },
-    meeting: { label: "Meeting", color: "#EF5350" },
-    leave: { label: "Leave", color: "#FFA726" },
-    offline: { label: "Offline", color: "#BDBDBD" },
-    busy: { label: "Busy", color: "#AB47BC" },
+    online: { label: "ออนไลน์", color: "#66BB6A" },
+    meeting: { label: "กำลังประชุม", color: "#EF5350" },
+    leave: { label: "ลาพักงาน", color: "#FFA726" },
+    offline: { label: "ออฟไลน์", color: "#BDBDBD" },
+    busy: { label: "ยุ่ง", color: "#AB47BC" },
+};
+
+const FILTER_LABELS: Record<string, string> = {
+    All: "ทั้งหมด",
+    Pastors: "ศิษยาภิบาล",
+    Office: "ธุรการ",
+    Others: "อื่นๆ",
+};
+
+const DEPT_LABELS: Record<string, string> = {
+    Pastoral: "งานอภิบาล",
+    Office: "ธุรการ",
+    Worship: "งานนมัสการ",
+    Education: "งานการศึกษา",
 };
 
 const StatusDot = ({ status }: { status: string }) => {
@@ -80,7 +94,7 @@ export default function StaffPage() {
                             color: "var(--text-primary)",
                         }}
                     >
-                        Staff Directory
+                        ทำเนียบบุคลากร
                     </h1>
 
                     {/* Add Button */}
@@ -148,7 +162,7 @@ export default function StaffPage() {
                         </div>
                         <input
                             type="search"
-                            placeholder="Search staff by name..."
+                            placeholder="ค้นหาบุคลากรด้วยชื่อ..."
                             className="mtc-input"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -191,7 +205,7 @@ export default function StaffPage() {
                                     minHeight: 36,
                                 }}
                             >
-                                {f}
+                                {FILTER_LABELS[f] ?? f}
                             </button>
                         ))}
                     </div>
@@ -286,7 +300,7 @@ export default function StaffPage() {
                                                 fontWeight: 600,
                                             }}
                                         >
-                                            {staff.department}
+                                            {DEPT_LABELS[staff.department] ?? staff.department}
                                         </span>
                                     </div>
 
@@ -371,7 +385,7 @@ export default function StaffPage() {
                                         <circle cx="11" cy="11" r="8" />
                                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
                                     </svg>
-                                    <p style={{ fontSize: 15 }}>No staff found</p>
+                                    <p style={{ fontSize: 15 }}>ไม่พบรายชื่อบุคลากร</p>
                                 </div>
                             )}
                         </div>

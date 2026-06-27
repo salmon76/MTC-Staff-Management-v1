@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MTC Staff Portal | Maitrichit Church",
+  title: "พอร์ทัลบุคลากร MTC | คริสตจักรไมตรีจิต",
   description:
-    "ระบบจัดการพนักงาน Maitrichit Church 1837 - Staff Management Portal",
+    "ระบบจัดการบุคลากร คริสตจักรไมตรีจิต 1837 - Staff Management Portal",
   keywords: ["MTC", "Maitrichit Church", "Staff Management", "LIFF"],
   robots: "noindex, nofollow",
 };
