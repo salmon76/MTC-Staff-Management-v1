@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import BottomNav from "@/components/BottomNav";
 
 interface TicketStats {
   totalActive: number;
@@ -267,6 +268,7 @@ export default function TicketsPage() {
           })}
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 }

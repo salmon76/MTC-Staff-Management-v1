@@ -45,7 +45,7 @@ export default function LoginPage() {
       // Mock profile for demo
       const profile = {
         userId: "U_demo_user_001",
-        displayName: "Demo User",
+        displayName: "ธัญวิชญ์ ทีหงัน (Thanyawit Teengan)",
       };
 
       if (!profile) {

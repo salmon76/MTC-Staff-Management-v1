@@ -13,7 +13,7 @@ export default function DashboardPage() {
     useEffect(() => {
         // Simulate data fetching
         const timer = setTimeout(() => {
-            setUserName("Rev. Somchai"); // Mock user from UI
+            setUserName("ธัญวิชญ์ ทีหงัน (Thanyawit Teengan)"); // Mock user from UI
             setIsLoading(false);
         }, 800);
 
@@ -35,7 +35,7 @@ export default function DashboardPage() {
             <Header
                 userName={userName}
                 // Mock Avatar URL
-                avatarUrl="https://ui-avatars.com/api/?name=Rev+Somchai&background=EF5350&color=fff"
+                avatarUrl="https://ui-avatars.com/api/?name=Thanyawit+Teengan&background=EF5350&color=fff"
                 onMenuClick={() => alert("Open Menu")}
                 onSearchClick={() => alert("Search")}
             />

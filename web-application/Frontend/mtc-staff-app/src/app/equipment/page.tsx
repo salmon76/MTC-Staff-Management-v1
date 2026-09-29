@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import BottomNav from "@/components/BottomNav";
 import SignaturePad from "@/components/SignaturePad";
 import * as XLSX from "xlsx";
 
@@ -821,6 +822,8 @@ export default function EquipmentPage() {
           onCancel={() => setShowSignature(null)}
         />
       )}
+
+      <BottomNav />
     </div>
   );
 }

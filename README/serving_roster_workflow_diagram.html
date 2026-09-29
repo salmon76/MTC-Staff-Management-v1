@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คู่มือและแผนผังขั้นตอนการทำงาน (Workflow Diagram) — ระบบตารางรับใช้ปรนนิบัติ MTC</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --mtc-red: #C62828;
+      --mtc-red-dark: #8E0000;
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --bg: #F8F9FC;
+      --card-bg: #FFFFFF;
+      --border: #E2E8F0;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --success: #16A34A;
+      --warning: #D97706;
+      --info: #0284C7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 32px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .header-card {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: #ffffff;
+      padding: 36px 32px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #94a3b8;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .mermaid {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #edf2f7;
+      margin: 16px 0;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .step-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      position: relative;
+    }
+
+    .step-num {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--mtc-red);
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      text-align: center;
+      line-height: 28px;
+      margin-bottom: 10px;
+    }
+
+    .step-heading {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .step-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .scenario-box {
+      border-left: 4px solid var(--info);
+      background: #f0f9ff;
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 16px;
+    }
+
+    .scenario-box.warning {
+      border-left-color: var(--warning);
+      background: #fffbeb;
+    }
+
+    .scenario-box.success {
+      border-left-color: var(--success);
+      background: #f0fdf4;
+    }
+
+    .scenario-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .table-custom {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    .table-custom th, .table-custom td {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .table-custom th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .print-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--mtc-red);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      box-shadow: 0 4px 20px rgba(198,40,40,0.4);
+      cursor: pointer;
+      z-index: 1000;
+      font-family: inherit;
+    }
+
+    @media print {
+      .print-btn { display: none; }
+      body { background: #fff; padding: 0; }
+      .card, .header-card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header-card">
+      <div class="header-badge">MTC Staff Management — System Workflow</div>
+      <h1>แผนผังกระบวนการทำงานระบบตารางรับใช้ (Serving Roster Workflow)</h1>
+      <p class="subtitle">
+        คริสตจักรไมตรีจิต 1837 — แผนผังลำดับขั้นตอนการจัดตาราง การตอบรับ การสลับเวร และการแจ้งเตือนอัตโนมัติ 4 ระยะ
+      </p>
+    </div>
+
+    <!-- Section 1: Overview Journey -->
+    <div class="card">
+      <div class="card-title">1. ภาพรวมลำดับขั้นตอนการทำงาน (End-to-End Workflow)</div>
+      <div class="card-desc">
+        กระบวนการทำงานตั้งแต่การคำนวณตารางอัตโนมัติตามกฎ 4 ข้อ จนถึงการเสร็จสิ้นภารกิจนมัสการ
+      </div>
+
+      <div class="mermaid">
+        flowchart TD
+          A["1. คำนวณตารางอัตโนมัติ (Scheduler Engine 4 Rules)"] --> B["2. ส่งตาราง & บันทึกเข้าระบบ (LINE LIFF Notification)"]
+          B --> C{"3. การตอบรับของผู้รับใช้"}
+          C -->|ยืนยันสะดวก| D["4. ยืนยันตารางรับใช้ (Confirmed)"]
+          C -->|ขอสลับเวร / ติดภารกิจ| E["5. ยื่นคำขอสลับเวร (Swap Request)"]
+          C -->|ฉุกเฉิน| F["6. แจ้งเปลี่ยนฉุกเฉิน (Emergency Change)"]
+
+          E --> G["7. ระบบค้นหามัคนายกที่ว่าง (Auto Substitute Matching)"]
+          F --> G
+          G --> H["8. ผู้รับใช้แทนกดยืนยัน (Substitute Confirmed)"]
+          H --> I["9. อัปเดตข้อมูลสูจิบัตร & แจ้งผู้เกี่ยวข้อง"]
+          D --> J["10. เข้าสู่กระบวนการแจ้งเตือน 4 ระยะ (Timeline Reminder)"]
+          I --> J
+          J --> K["11. เสร็จสิ้นภารกิจนมัสการ (Mission Completed)"]
+
+          style A fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+          style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+          style E fill:#fef3c7,stroke:#d97706,stroke-width:2px;
+          style H fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+          style J fill:#f3e8ff,stroke:#7e22ce,stroke-width:2px;
+          style K fill:#f1f5f9,stroke:#64748b,stroke-width:2px;
+      </div>
+
+      <div class="step-grid">
+        <div class="step-item">
+          <span class="step-num">1</span>
+          <div class="step-heading">คำนวณตามกฎ 4 ข้อ</div>
+          <div class="step-text">ประมวลผลตารางรายปีโดยจับคู่มัคนายกกับวันสำคัญประจำฝ่าย จัดลำดับสถานที่ และคุมโควตาไม่เกิน 2 ครั้ง/เดือน</div>
+        </div>
+        <div class="step-item">
+          <span class="step-num">2</span>
+          <div class="step-heading">แจ้งเตือนผ่าน LINE</div>
+          <div class="step-text">ส่งการแจ้งเตือนตารางงานล่วงหน้าตรงถึงมือถือผู้รับใช้ผ่าน LINE LIFF เพื่อให้เปิดตรวจสอบได้ทันที</div>
+        </div>
+        <div class="step-item">
+          <span class="step-num">3</span>
+          <div class="step-heading">การสลับเวรอัตโนมัติ</div>
+          <div class="step-text">หากไม่สะดวก สามารถกดขอสลับเวรพร้อมระบุเหตุผล ระบบจะค้นหามัคนายกที่ว่างและแจ้งผู้แทนโดยอัตโนมัติ</div>
+        </div>
+        <div class="step-item">
+          <span class="step-num">4</span>
+          <div class="step-heading">แจ้งเตือน 4 ระยะ</div>
+          <div class="step-text">ส่งแจ้งเตือนเตรียมตัว (T-14), ส่งข้อมูลสูจิบัตร (T-7), ยืนยันเวลานัดหมาย (T-1), และข้อความขอบคุณ (T+0)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Scenarios -->
+    <div class="card">
+      <div class="card-title">2. กรณีการใช้งานหลัก 3 รูปแบบ (3 Core Scenarios)</div>
+      <div class="card-desc">รายละเอียดการไหลของข้อมูลในแต่ละสถานการณ์จริง</div>
+
+      <!-- Scenario A -->
+      <div class="scenario-box success">
+        <div class="scenario-title">กรณีที่ 1: การตอบรับและปฏิบัติหน้าที่ตามปกติ (Standard Confirmation Flow)</div>
+        <div class="step-text">
+          มัคนายกได้รับแจ้งตาราง ➔ เปิดดูผ่าน LINE LIFF ➔ กดยืนยันรับหน้าที่ ➔ ระบบบันทึกสถานะ `confirmed` ➔ ส่งแจ้งเตือนตามไทม์ไลน์ 4 ระยะ ➔ ปฏิบัติหน้าที่ตามเวลา
+        </div>
+      </div>
+
+      <!-- Scenario B -->
+      <div class="scenario-box warning">
+        <div class="scenario-title">กรณีที่ 2: การขอสลับเวรล่วงหน้า (Swap Duty Request Flow)</div>
+        <div class="step-text">
+          มัคนายกติดภารกิจ ➔ กดปุ่ม "ขอสลับเวร (Swap)" ในแอป ➔ ระบุเหตุผล (เช่น เทศนาต่างจังหวัด) ➔ ระบบค้นหามัคนายกที่ว่างในวันดังกล่าว ➔ ผู้แทนตอบรับ ➔ อัปเดตข้อมูลส่งให้ทีมธุรการจัดทำสูจิบัตร
+        </div>
+      </div>
+
+      <!-- Scenario C -->
+      <div class="scenario-box">
+        <div class="scenario-title">กรณีที่ 3: การเปลี่ยนตัวกรณีฉุกเฉิน (Emergency Change Flow)</div>
+        <div class="step-text">
+          เกิดเหตุฉุกเฉินกะทันหันก่อนวันอาทิตย์ ➔ กดแจ้งเหตุฉุกเฉินในระบบ ➔ ระบบแจ้งเตือนไปยังประธานมัคนายกและทีมบริหารทันที ➔ มอบหมายผู้รับใช้สำรองเข้าปฏิบัติหน้าที่แทน
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Sequence Diagram -->
+    <div class="card">
+      <div class="card-title">3. ลำดับการสื่อสารระหว่างระบบ (Sequence Diagram)</div>
+      <div class="card-desc">
+        การส่งข้อมูลระหว่างผู้ใช้งาน, LINE LIFF, Next.js Server, Database, และ LINE Bot
+      </div>
+
+      <div class="mermaid">
+        sequenceDiagram
+          autonumber
+          actor Deacon as มัคนายก / ผู้รับใช้
+          participant LIFF as LINE LIFF Portal
+          participant Server as Next.js Server / API
+          participant DB as PostgreSQL Database
+          participant Bot as LINE Bot Messaging API
+
+          Server->>DB: 1. ประมวลผลตารางรายปี (4 Rules Engine)
+          Server->>Bot: 2. สั่งส่ง Notification แจ้งตารางใหม่
+          Bot-->>Deacon: 3. ส่งข้อความแจ้งตารางผ่าน LINE
+          Deacon->>LIFF: 4. กดเปิดดูตารางรับใช้ (Schedule Roster)
+          
+          alt กดยืนยันรับหน้าที่
+            Deacon->>LIFF: 5ก. กดยืนยันสะดวก (Confirm)
+            LIFF->>Server: 6ก. บันทึกสถานะ Confirmed
+            Server->>DB: 7ก. อัปเดตสถานะในตาราง
+          else ขอสลับเวร
+            Deacon->>LIFF: 5ข. กดขอสลับเวร (Swap Request) + ระบุเหตุผล
+            LIFF->>Server: 6ข. ส่ง Request ขอเปลี่ยนตัว
+            Server->>DB: 7ข. ค้นหามัคนายกที่ไม่มีเวรในวันดังกล่าว
+            Server->>Bot: 8ข. ส่งคำเชิญไปยังผู้รับใช้แทน
+            Bot-->>Deacon: 9ข. ส่งข้อความยืนยันการเปลี่ยนเวรสำเร็จ
+          end
+
+          Note over Server,Bot: ไทม์ไลน์แจ้งเตือนอัตโนมัติ (T-14, T-7, T-1, T+0)
+          Server->>Bot: 10. ส่งข้อความเตือนเตรียมตัวและข้อมูลสูจิบัตร
+          Bot-->>Deacon: 11. ได้รับข้อความเตือนนัดหมาย
+      </div>
+    </div>
+
+    <!-- Section 4: 4-Stage Reminder Timeline -->
+    <div class="card">
+      <div class="card-title">4. รายละเอียดไทม์ไลน์การแจ้งเตือนอัตโนมัติ 4 ระยะ (Timeline Matrix)</div>
+      <div class="card-desc">
+        กำหนดการและวัตถุประสงค์ของข้อความแจ้งเตือนอัตโนมัติ
+      </div>
+
+      <table class="table-custom">
+        <thead>
+          <tr>
+            <th style="width: 20%;">ระยะเวลา</th>
+            <th style="width: 25%;">ประเภทการแจ้งเตือน</th>
+            <th style="width: 35%;">ตัวอย่างข้อความ</th>
+            <th style="width: 20%;">ผู้รับข้อความ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>T-14 วัน</strong> (2 สัปดาห์ก่อนหน้า)</td>
+            <td>แจ้งเตือนเตรียมตัวรับใช้</td>
+            <td>&ldquo;ขอแจ้งตารางรับใช้ล่วงหน้า เพื่อให้ท่านจัดสรรเวลาและเตรียมจิตใจในการปรนนิบัติ&rdquo;</td>
+            <td>ผู้รับใช้ทุกคนในสัปดาห์นั้น</td>
+          </tr>
+          <tr>
+            <td><strong>T-7 วัน</strong> (1 สัปดาห์ก่อนหน้า)</td>
+            <td>แจ้งส่งข้อมูลสูจิบัตร / Pre-work</td>
+            <td>&ldquo;กรุณาส่งหัวข้อ ข้อพระธรรม หรือข้อมูลผู้นำนมัสการเพื่อจัดทำสูจิบัตร&rdquo;</td>
+            <td>ผู้เทศนา, ผู้นำนมัสการ, ผู้แปล</td>
+          </tr>
+          <tr>
+            <td><strong>T-1 วัน</strong> (1 วันก่อนหน้า)</td>
+            <td>แจ้งยืนยันรอบพรุ่งนี้</td>
+            <td>&ldquo;พรุ่งนี้เราร่วมรับใช้ด้วยกันในพระนิเวศ นัดหมายพร้อมกันเวลา 08:30 น.&rdquo;</td>
+            <td>มัคนายกและทีมงานประจำจุดทั้งหมด</td>
+          </tr>
+          <tr>
+            <td><strong>T+0 คืนวันอาทิตย์</strong> (เสร็จสิ้นงาน)</td>
+            <td>ข้อความขอบคุณ & เสริมกำลัง</td>
+            <td>&ldquo;ขอพระเจ้าเสริมกำลังและอวยพระพรสำหรับการปรนนิบัติรับใช้ในวันนี้&rdquo;</td>
+            <td>ผู้รับใช้ทุกคนที่ปฏิบัติหน้าที่</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 5: 4 Core Rules Summary -->
+    <div class="card">
+      <div class="card-title">5. เกณฑ์และกฎ 4 ข้อในการจัดตาราง (Scheduling Engine Rules)</div>
+      <div class="card-desc">
+        หลักเกณฑ์ในการคำนวณและจัดสรรตารางของคริสตจักรไมตรีจิต
+      </div>
+
+      <table class="table-custom">
+        <thead>
+          <tr>
+            <th style="width: 15%;">กฎ</th>
+            <th style="width: 30%;">ชื่อหลักเกณฑ์</th>
+            <th style="width: 55%;">คำอธิบายรายละเอียด</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>กฎข้อที่ 1</strong></td>
+            <td>วันพิเศษตรงฝ่าย (Department Mapping)</td>
+            <td>กำหนดให้มัคนายกประจำฝ่ายเป็นผู้นำนมัสการในวันสำคัญประจำปีของฝ่ายตนเอง (เช่น วันอนุชน ➔ มน.อนุชน, วันสตรี ➔ มน.สตรี)</td>
+          </tr>
+          <tr>
+            <td><strong>กฎข้อที่ 2</strong></td>
+            <td>ลำดับสถานที่ (Location Priority)</td>
+            <td>จัดสรรตามลำดับความสำคัญ: โบสถ์บน/ล่าง (Priority 1) ➔ ประตูทางเข้าใหญ่ (Priority 2) ➔ ห้องทิโมธี (Priority 3)</td>
+          </tr>
+          <tr>
+            <td><strong>กฎข้อที่ 3</strong></td>
+            <td>โควตาไม่เกิน 2 ครั้ง/เดือน (Quota Rule)</td>
+            <td>จำกัดความถี่ในการรับใช้ไม่เกิน 2 สัปดาห์ต่อเดือนต่อท่าน เพื่อป้องกันภาระงานที่หนักเกินไปและกระจายการมีส่วนร่วม</td>
+          </tr>
+          <tr>
+            <td><strong>กฎข้อที่ 4</strong></td>
+            <td>ป้องกันตารางชน (Conflict Prevention)</td>
+            <td>ตรวจสอบวันลาที่ได้รับอนุมัติในระบบ และป้องกันการจัดเวรซ้ำซ้อนในวันเดียวกัน</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">🖨️ พิมพ์เอกสาร / บันทึกเป็น PDF</button>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+    });
+  </script>
+</body>
+</html>

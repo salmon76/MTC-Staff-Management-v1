@@ -4,3 +4,5 @@ __pycache__/
 node_modules/
 .env
 *.log
+.agents/
+skills-lock.json

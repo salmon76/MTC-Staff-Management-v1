@@ -7,11 +7,11 @@ import { useRouter } from "next/navigation";
 
 // Mock User Data
 const USER_PROFILE = {
-    name: "อ.สมชาย ใจดี",
-    role: "ศาสนาจารย์ (ศิษยาภิบาลอาวุโส)",
+    name: "ธัญวิชญ์ ทีหงัน (Thanyawit Teengan)",
+    role: "ศาสนาจารย์ (ศิษยาภิบาล)",
     department: "งานอภิบาลคริสตจักร",
     phone: "084-504-8418",
-    email: "somchai@maitrichit.org",
+    email: "thanyawit@maitrichit.org",
     joinedDate: "12 มิถุนายน 2558",
     avatarUrl: null, // If null, fallback to Initials
     status: "online",
